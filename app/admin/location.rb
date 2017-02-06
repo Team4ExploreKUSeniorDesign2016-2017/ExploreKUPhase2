@@ -15,13 +15,13 @@ ActiveAdmin.register Location do
       end
     end
 
-    if f.object.locatable_type != 'Building'
+    if f.object.locatable_type != ('Building' || 'BusStop')
       f.inputs 'Parking Lot', for: [:locatable, f.object.locatable || ParkingLot.new], id: 'ParkingLot_poly', class: css_class do |fc|
         fc.input :status
       end
     end
 
-    if f.object.locatable_type != 'ParkingLot'
+    if f.object.locatable_type != ('ParkingLot' || 'BusStop')
       f.inputs 'Building', for: [:locatable, f.object.locatable || Building.new], id: 'Building_poly', class: css_class do |fc|
         fc.input :description
         fc.input :address
@@ -29,7 +29,7 @@ ActiveAdmin.register Location do
       end
     end
 
-    if f.object.locatable_type != 'BusStop'
+    if f.object.locatable_type != ('Building' || 'ParkingLot') 
       f.inputs 'Bus Stop', for: [:locatable, f.object.locatable || BusStop.new], id: 'BusStop_poly', class: css_class do |fc|
         fc.input :number
       end
