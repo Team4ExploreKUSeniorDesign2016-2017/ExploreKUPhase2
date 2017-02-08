@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20170123045700) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
     t.text     "body"
@@ -24,9 +27,9 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -43,8 +46,8 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at",                          null: false
   end
 
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
-  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "amenities", force: :cascade do |t|
     t.integer  "building_id"
@@ -53,7 +56,7 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "amenities", ["building_id"], name: "index_amenities_on_building_id"
+  add_index "amenities", ["building_id"], name: "index_amenities_on_building_id", using: :btree
 
   create_table "buildings", force: :cascade do |t|
     t.string   "image"
@@ -76,7 +79,7 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "departments", ["building_id"], name: "index_departments_on_building_id"
+  add_index "departments", ["building_id"], name: "index_departments_on_building_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"
@@ -88,7 +91,7 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "locations", ["locatable_type", "locatable_id"], name: "index_locations_on_locatable_type_and_locatable_id"
+  add_index "locations", ["locatable_type", "locatable_id"], name: "index_locations_on_locatable_type_and_locatable_id", using: :btree
 
   create_table "parking_lots", force: :cascade do |t|
     t.string   "status"
@@ -103,8 +106,8 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "route_assignments", ["bus_stop_id"], name: "index_route_assignments_on_bus_stop_id"
-  add_index "route_assignments", ["route_id"], name: "index_route_assignments_on_route_id"
+  add_index "route_assignments", ["bus_stop_id"], name: "index_route_assignments_on_bus_stop_id", using: :btree
+  add_index "route_assignments", ["route_id"], name: "index_route_assignments_on_route_id", using: :btree
 
   create_table "routes", force: :cascade do |t|
     t.integer  "number"
@@ -114,4 +117,6 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "amenities", "buildings"
+  add_foreign_key "departments", "buildings"
 end

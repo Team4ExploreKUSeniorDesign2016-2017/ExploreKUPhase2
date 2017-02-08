@@ -26,6 +26,12 @@ ActiveAdmin.register Location do
         fc.input :description
         fc.input :address
         fc.input :image
+        # fc.has_many :amenities, allow_destroy: true, new_record: "Add Amenities" do |e|
+        # fc.input :amenity_ids, as: :select2_multiple, collection: [:apples, :bananas, :oranges, :oranges]
+        # end
+        fc.has_many :departments, allow_destroy: true, new_record: "Add Departments" do |e|
+          e.input :name
+        end
       end
     end
 
