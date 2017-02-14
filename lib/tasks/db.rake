@@ -23,4 +23,30 @@ namespace :db do
     	end
     end
   end
+  task import_updated: :environment do
+    file_name = 'db/Building.csv'
+	  CSV.foreach(file_name, headers: true) do |row|
+  		loc = Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: Building.create!(image: row['image'], description: row['description'], address: 	row['address']))
+  		if row['department'] != 'none'
+  			tmp = row['department'].split('|')
+  			tmp.each do |department|
+  				loc.locatable.departments.create(name: department)
+  			end
+  		end
+  		if row['amenity'] != 'none'
+  			tmp = row['amenity'].split('|')
+  			tmp.each do |amenity|
+  				loc.locatable.amenities.create(name: amenity)
+  			end
+  		end
+  	end
+    file_name = 'db/ParkingLot.csv'
+  	CSV.foreach(file_name, headers: true) do |row|
+  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: ParkingLot.create!(status: row['status']))
+  	end
+    file_name = 'db/BusStop.csv'
+  	CSV.foreach(file_name, headers: true) do |row|
+  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: BusStop.create!(number: row['number']))
+  	end
+  end
 end
