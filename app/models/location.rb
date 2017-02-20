@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
   belongs_to :locatable, polymorphic: true, :dependent => :destroy
 
-  accepts_nested_attributes_for :locatable
+  accepts_nested_attributes_for :locatable, :allow_destroy => true
 
   LOCATABLE_TYPES = %w(Building ParkingLot BusStop)
 

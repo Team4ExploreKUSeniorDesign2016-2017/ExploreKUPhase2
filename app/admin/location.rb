@@ -1,6 +1,7 @@
 ActiveAdmin.register Location do
 
-  permit_params :name, :latitude, :longitude, :locatable_type, :locatable_id, locatable_attributes: [:status, :description, :address, :image]
+  permit_params :name, :latitude, :longitude, :locatable_type, :locatable_id,
+    locatable_attributes: [:id, :number, :status, :description, :address, :image, amenities_attributes: [:id, :name, :_destroy], departments_attributes: [:id, :name, :_destroy]]
 
   form do |f|
     css_class = f.object.locatable ? "inputs" : "inputs polyform"
@@ -26,9 +27,10 @@ ActiveAdmin.register Location do
         fc.input :description
         fc.input :address
         fc.input :image
-        # fc.has_many :amenities, allow_destroy: true, new_record: "Add Amenities" do |e|
-        # fc.input :amenity_ids, as: :select2_multiple, collection: [:apples, :bananas, :oranges, :oranges]
-        # end
+        fc.has_many :amenities, allow_destroy: true, new_record: "Add Amenities" do |e|
+          # fc.input :amenity_ids, as: :select2_multiple, collection: [:apples, :bananas, :oranges, :oranges]
+          e.input :name
+        end
         fc.has_many :departments, allow_destroy: true, new_record: "Add Departments" do |e|
           e.input :name
         end
