@@ -29,6 +29,9 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'select2-rails'
 gem 'activeadmin-select2', '~> 0.1.0'
 
+#Api gems
+gem 'active_model_serializers'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
