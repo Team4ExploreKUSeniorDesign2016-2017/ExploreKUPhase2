@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      resources :locations, :only => [:show]
+      resources :locations, :only => [:show, :index]
     end
   end
 end

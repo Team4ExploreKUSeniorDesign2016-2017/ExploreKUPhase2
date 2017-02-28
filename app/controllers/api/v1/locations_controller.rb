@@ -1,6 +1,14 @@
 class Api::V1::LocationsController < ApplicationController
   respond_to :json
 
+  def index
+    lat = params[:lat]
+    lng = params[:lng]
+    distance = params[:distance]
+    respond_with Location.proximity(lat, lng, distance)
+    # ?lat=38.960401&lng=-95.242294&distance=2
+  end
+
   def show
     location = Location.find(params[:id])
     locatable = location.locatable.as_json(:except => [:created_at, :updated_at])
