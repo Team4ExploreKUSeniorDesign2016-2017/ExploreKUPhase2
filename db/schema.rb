@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170123045700) do
+ActiveRecord::Schema.define(version: 20170302070522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,24 +99,50 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "route_assignments", force: :cascade do |t|
-    t.integer  "bus_stop_id"
+  create_table "route_intervals", force: :cascade do |t|
+    t.decimal  "start_time"
+    t.decimal  "end_time"
+    t.decimal  "delta_time"
     t.integer  "route_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "route_intervals", ["route_id"], name: "index_route_intervals_on_route_id", using: :btree
+
+  create_table "route_schedules", force: :cascade do |t|
+    t.string   "info"
+    t.integer  "route_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "route_schedules", ["route_id"], name: "index_route_schedules_on_route_id", using: :btree
+
+  create_table "route_stops", force: :cascade do |t|
+    t.decimal  "start_time"
+    t.decimal  "end_time"
+    t.integer  "route_id"
+    t.integer  "bus_stop_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  add_index "route_assignments", ["bus_stop_id"], name: "index_route_assignments_on_bus_stop_id", using: :btree
-  add_index "route_assignments", ["route_id"], name: "index_route_assignments_on_route_id", using: :btree
+  add_index "route_stops", ["bus_stop_id"], name: "index_route_stops_on_bus_stop_id", using: :btree
+  add_index "route_stops", ["route_id"], name: "index_route_stops_on_route_id", using: :btree
 
   create_table "routes", force: :cascade do |t|
     t.integer  "number"
     t.string   "name"
-    t.string   "direction"
+    t.string   "line"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "amenities", "buildings"
   add_foreign_key "departments", "buildings"
+  add_foreign_key "route_intervals", "routes"
+  add_foreign_key "route_schedules", "routes"
+  add_foreign_key "route_stops", "bus_stops"
+  add_foreign_key "route_stops", "routes"
 end
