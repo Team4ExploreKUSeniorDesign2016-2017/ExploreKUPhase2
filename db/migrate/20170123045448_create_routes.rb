@@ -3,7 +3,7 @@ class CreateRoutes < ActiveRecord::Migration
     create_table :routes do |t|
       t.integer :number
       t.string :name
-      t.string :direction
+      t.string :line
 
       t.timestamps null: false
     end
