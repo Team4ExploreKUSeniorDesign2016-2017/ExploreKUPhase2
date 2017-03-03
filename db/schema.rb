@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20170123045700) do
     t.string   "name"
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.decimal  "altitude"
     t.integer  "locatable_id"
     t.string   "locatable_type"
     t.datetime "created_at",     null: false

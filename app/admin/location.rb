@@ -1,6 +1,6 @@
 ActiveAdmin.register Location do
 
-  permit_params :name, :latitude, :longitude, :locatable_type, :locatable_id,
+  permit_params :name, :latitude, :longitude, :altitude, :locatable_type, :locatable_id,
     locatable_attributes: [:id, :number, :status, :description, :address, :image, amenities_attributes: [:id, :name, :_destroy], departments_attributes: [:id, :name, :_destroy]]
 
   form do |f|
@@ -10,6 +10,7 @@ ActiveAdmin.register Location do
       f.input :name
       f.input :latitude
       f.input :longitude
+      f.input :altitude
       if !f.object.locatable
         f.input :locatable_type, input_html: {class: 'polyselect'},
         collection: Location::LOCATABLE_TYPES
