@@ -4,6 +4,7 @@ class CreateLocations < ActiveRecord::Migration
       t.string :name
       t.decimal :latitude
       t.decimal :longitude
+      t.decimal :altitude
       t.references :locatable, polymorphic: true, index: true
 
       t.timestamps null: false

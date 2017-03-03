@@ -27,14 +27,14 @@ namespace :db do
     puts 'Importing Building'
     file_name = 'db/Building.csv'
 	  CSV.foreach(file_name, headers: true) do |row|
-  		loc = Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: Building.create!(image: row['image'], description: row['description'], address: 	row['address']))
-  		if row['department'] != 'none'
+  		loc = Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], altitude: row['altitude'], locatable: Building.create!(image: row['image'], description: row['description'], address: row['address']))
+  		if row['department']
   			tmp = row['department'].split('|')
   			tmp.each do |department|
   				loc.locatable.departments.create(name: department)
   			end
   		end
-  		if row['amenity'] != 'none'
+  		if row['amenity']
   			tmp = row['amenity'].split('|')
   			tmp.each do |amenity|
   				loc.locatable.amenities.create(name: amenity)
