@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20170302070422) do
   create_table "route_intervals", force: :cascade do |t|
     t.decimal  "delta_time"
     t.string   "shift"
+    t.string   "schedule"
     t.integer  "route_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
