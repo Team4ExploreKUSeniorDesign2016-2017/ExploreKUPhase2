@@ -1,0 +1,2 @@
+route_number,stop_number,start_time,end_time,shift,schedule
+10,171,6:49AM,7:49PM,1,All
