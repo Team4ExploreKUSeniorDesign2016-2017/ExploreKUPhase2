@@ -1,28 +1,6 @@
 require 'csv'
 namespace :db do
   desc "import data from files to database"
-  # task backup: :environment do
-  #   file_name = 'db/backup.csv'
-  #   CSV.foreach(file_name, headers: true) do |row|
-  #     type = row['locatable_type']
-  #     case type
-  #     when 'Building'
-  #       Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: Building.create!(description: row['description'], address: row['address']))
-  #     when 'ParkingLot'
-  #       Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: ParkingLot.create!(status: row['description']))
-  #     when 'BusStop'
-  #       Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: BusStop.create!(number: row['description']))
-  #     when 'Amenity'
-  #       Amenity.create!(building_id: row['name'], name: row['latitude'])
-  #     when 'Department'
-  #       Department.create!(building_id: row['name'], name: row['latitude'])
-  #     when 'RouteAssignment'
-  #       RouteAssignment.create!(bus_stop_id: row['name'], route_id: row['latitude'])
-  #     when 'Route'
-  #       Route.create!(number: row['name'], name: row['latitude'], direction: row['latitude'])
-  #   	end
-  #   end
-  # end
   task import: :environment do
     puts 'Importing Building'
     file_name = 'db/Building.csv'
@@ -51,5 +29,16 @@ namespace :db do
   	CSV.foreach(file_name, headers: true) do |row|
   		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: BusStop.create!(number: row['number']))
   	end
+    puts 'Importing Route'
+    file_name = 'db/Route.csv'
+    CSV.foreach(file_name, headers: true) do |row|
+      Route.create!(name: row['name'], line: row['line'], number: row['number'])
+    end
+    puts 'Importing Route Interval'
+    file_name = 'db/RouteInterval.csv'
+    CSV.foreach(file_name, headers: true) do |row|
+      routes = Route.where(number: row['route_number'])
+      RouteInterval.create!(delta_time: row['delta_time'], shift: row['shift'], schedule: row['schedule'], routes: routes)
+    end
   end
 end

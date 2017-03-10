@@ -1,0 +1,20 @@
+name,line,number
+Downtown to 6th & Wakarusa,Eastbound,10
+Downtown to 6th & Wakarusa,Westbound,10
+South Iowa to KU to Downtown,Northbound,11
+South Iowa to KU to Downtown,Southbound,11
+KU to Haskell University,Northbound,27
+KU to Haskell University,Southbound,27
+27th & Wakarusa to KU,Eastbound,29
+27th & Wakarusa to KU,Westbound,29
+Bob Billings & Kasold to KU,Eastbound,30
+Bob Billings & Kasold to KU,Westbound,30
+6th via Emery to KU,Eastbound,36
+6th via Emery to KU,Westbound,36
+25th & Melrose to KU,Northbound,38
+25th & Melrose to KU,Southbound,38
+Campus Circulator,Yellow,41
+Campus Circulator,Blue/Orange,42
+Campus Circulator,Red,43
+SafeBus,Red,52
+SafeBus,Yellow,53
