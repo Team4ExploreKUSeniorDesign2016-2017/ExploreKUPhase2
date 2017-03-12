@@ -22,12 +22,12 @@ namespace :db do
     puts 'Importing Parking Lot'
     file_name = 'db/ParkingLot.csv'
   	CSV.foreach(file_name, headers: true) do |row|
-  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: ParkingLot.create!(status: row['status']))
+  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'],  altitude: row['altitude'], locatable: ParkingLot.create!(status: row['status']))
   	end
     puts 'Importing Bus Stop'
     file_name = 'db/BusStop.csv'
   	CSV.foreach(file_name, headers: true) do |row|
-  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], locatable: BusStop.create!(number: row['number']))
+  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'],  altitude: row['altitude'], locatable: BusStop.create!(number: row['number']))
   	end
     puts 'Importing Route'
     file_name = 'db/Route.csv'
