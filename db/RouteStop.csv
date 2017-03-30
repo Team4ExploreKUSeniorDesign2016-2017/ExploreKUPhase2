@@ -154,9 +154,9 @@ route_number,stop_number,start_time,end_time,shift,schedule,line
 42,388,7:13 AM,5:43 PM,1,All,Northbound to JRP / 11th & Mississippi
 42,388,5:58 PM,9:58 PM,2,All,Northbound to JRP / 11th & Mississippi
 27,387,7:28 AM,6:08 PM,1,All,
-38,387,7:52,5:52 PM,Alternate,All,
+38,387,7:52 AM,5:52 PM,Alternate,All,
 27,379,7:28 AM,6:08 PM,1,All,
-38,379,7:26,5:26 PM,Alternate,All,
+38,379,7:26 AM,5:26 PM,Alternate,All,
 52,379,9:34 PM,2:54 AM,1,All,
 53,379,9:44 PM,3:04 AM,1,All,
 43,372,7:20 AM,12:00 PM,1,All,

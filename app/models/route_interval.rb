@@ -1,3 +1,3 @@
 class RouteInterval < ActiveRecord::Base
-  has_and_belongs_to_many :routes
+  belongs_to :route
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310175223) do
+ActiveRecord::Schema.define(version: 20170302070422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,23 +104,19 @@ ActiveRecord::Schema.define(version: 20170310175223) do
     t.decimal  "delta_time"
     t.string   "shift"
     t.string   "schedule"
+    t.integer  "route_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "route_intervals_routes", id: false, force: :cascade do |t|
-    t.integer "route_interval_id", null: false
-    t.integer "route_id",          null: false
-  end
-
-  add_index "route_intervals_routes", ["route_id", "route_interval_id"], name: "index_route_intervals_routes_on_route_id_and_route_interval_id", using: :btree
-  add_index "route_intervals_routes", ["route_interval_id", "route_id"], name: "index_route_intervals_routes_on_route_interval_id_and_route_id", using: :btree
+  add_index "route_intervals", ["route_id"], name: "index_route_intervals_on_route_id", using: :btree
 
   create_table "route_stops", force: :cascade do |t|
     t.decimal  "start_time"
     t.decimal  "end_time"
     t.string   "shift"
     t.string   "schedule"
+    t.string   "line"
     t.integer  "route_id"
     t.integer  "bus_stop_id"
     t.datetime "created_at",  null: false
@@ -133,13 +129,14 @@ ActiveRecord::Schema.define(version: 20170310175223) do
   create_table "routes", force: :cascade do |t|
     t.integer  "number"
     t.string   "name"
-    t.string   "line"
+    t.string   "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "amenities", "buildings"
   add_foreign_key "departments", "buildings"
+  add_foreign_key "route_intervals", "routes"
   add_foreign_key "route_stops", "bus_stops"
   add_foreign_key "route_stops", "routes"
 end

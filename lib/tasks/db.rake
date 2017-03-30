@@ -32,13 +32,22 @@ namespace :db do
     puts 'Importing Route'
     file_name = 'db/Route.csv'
     CSV.foreach(file_name, headers: true) do |row|
-      Route.create!(name: row['name'], line: row['line'], number: row['number'])
+      Route.create!(name: row['name'], number: row['number'], end: row['end'])
     end
     puts 'Importing Route Interval'
     file_name = 'db/RouteInterval.csv'
     CSV.foreach(file_name, headers: true) do |row|
-      routes = Route.where(number: row['route_number'])
-      RouteInterval.create!(delta_time: row['delta_time'], shift: row['shift'], schedule: row['schedule'], routes: routes)
+      route = Route.where(number: row['route_number']).first
+      RouteInterval.create!(delta_time: row['delta_time'], shift: row['shift'], schedule: row['schedule'], route: route)
+    end
+    puts 'Importing Route Stop'
+    file_name = 'db/RouteStop.csv'
+    CSV.foreach(file_name, headers: true) do |row|
+      bus_stop = BusStop.where(number: row['stop_number']).first
+      route = Route.where(number: row['route_number']).first
+      start_time = Time.parse(row['start_time']).seconds_since_midnight
+      end_time = Time.parse(row['end_time']).seconds_since_midnight
+      RouteStop.create!(route: route, bus_stop: bus_stop, start_time: start_time, end_time: end_time, shift: row['shift'], schedule: row['schedule'], line: row['line'])
     end
   end
 end
