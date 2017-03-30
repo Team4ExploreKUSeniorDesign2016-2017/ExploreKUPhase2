@@ -47,6 +47,7 @@ namespace :db do
       route = Route.where(number: row['route_number']).first
       start_time = Time.parse(row['start_time']).seconds_since_midnight
       end_time = Time.parse(row['end_time']).seconds_since_midnight
+      end_time += 24.hours if end_time <= Time.parse("3 AM").seconds_since_midnight
       RouteStop.create!(route: route, bus_stop: bus_stop, start_time: start_time, end_time: end_time, shift: row['shift'], schedule: row['schedule'], line: row['line'])
     end
   end
