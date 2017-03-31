@@ -5,7 +5,15 @@ class Location < ActiveRecord::Base
 
   LOCATABLE_TYPES = %w(Building ParkingLot BusStop)
 
-  scope :proximity, -> (lat, lng, distance) { where("3959*acos(cos(radians(?))*cos(radians(latitude))*cos(radians(longitude)-radians(?))+sin(radians(?))*sin(radians(latitude))) < ?", lat, lng, lat, distance) }
+  scope :distance, -> (lat, lng) {
+    lat = ActiveRecord::Base.connection.quote(lat)
+    lng = ActiveRecord::Base.connection.quote(lng)
+    select("3959*acos(cos(radians(#{lat}))*cos(radians(latitude))*cos(radians(longitude)-radians(#{lng}))+sin(radians(#{lat}))*sin(radians(latitude))) AS distance, *")
+  }
+
+  scope :proximity, -> (lat, lng, distance) {
+    where("locations.distance < ?", distance).from(Location.distance(lat, lng), :locations)
+  }
 
   def build_locatable(params)
     raise "Unknown locatable_type: #{locatable_type}" unless LOCATABLE_TYPES.include?(locatable_type)

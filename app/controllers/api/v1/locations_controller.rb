@@ -4,8 +4,26 @@ class Api::V1::LocationsController < ApplicationController
   def index
     lat = params[:lat]
     lng = params[:lng]
-    distance = params[:distance]
-    respond_with Location.proximity(lat, lng, distance).as_json(:except => [:locatable_id, :locatable, :created_at, :updated_at])
+    distance = params[:distance] || :distance
+    sort_by = params[:sort_by]
+    count = params[:count]
+    type = params[:type]
+    keyword = params[:keyword].downcase
+    begin
+      locations = Location.proximity(lat, lng, distance)
+      locations = locations.where(locatable_type: type) unless type.nil?
+      if keyword
+        if type != "ParkingLot" && type != "BusStop"
+          condition = ActiveRecord::Base.send(:sanitize_sql_array, ["lower(name) like ? OR (locatable_type = 'Building' AND lower(buildings.description) like ?)", "%#{keyword}%", "%#{keyword}%"])
+          locations = locations.joins("LEFT JOIN buildings ON locatable_id = buildings.id").where(condition)
+        else
+          locations = locations.where("lower(name) like ?", "%#{keyword}%")
+        end
+      end
+      respond_with locations.order(sort_by).limit(count).as_json(:except => [:locatable_id, :locatable, :created_at, :updated_at])
+    rescue
+      respond_with JSON.generate({:error => "Some parameters are invalid!"})
+    end
     # ?lat=38.960401&lng=-95.242294&distance=2
   end
 
