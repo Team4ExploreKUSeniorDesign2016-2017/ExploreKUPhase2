@@ -8,11 +8,12 @@ class Api::V1::LocationsController < ApplicationController
     sort_by = params[:sort_by]
     count = params[:count]
     type = params[:type]
-    keyword = params[:keyword].downcase
+    keyword = params[:keyword]
     begin
       locations = Location.proximity(lat, lng, distance)
       locations = locations.where(locatable_type: type) unless type.nil?
       if keyword
+        keyword = keyword.downcase
         if type != "ParkingLot" && type != "BusStop"
           condition = ActiveRecord::Base.send(:sanitize_sql_array, ["lower(name) like ? OR (locatable_type = 'Building' AND lower(buildings.description) like ?)", "%#{keyword}%", "%#{keyword}%"])
           locations = locations.joins("LEFT JOIN buildings ON locatable_id = buildings.id").where(condition)
