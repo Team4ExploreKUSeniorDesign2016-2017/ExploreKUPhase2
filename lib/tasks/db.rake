@@ -5,7 +5,6 @@ namespace :db do
     puts 'Importing Building'
     file_name = 'db/Building.csv'
 	  CSV.foreach(file_name, encoding:'windows-1250:utf-8', headers: true) do |row|
-      puts row["name"]
   		loc = Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], altitude: row['altitude'], locatable: Building.create!(image: row['image'], description: row['description'], address: row['address']))
   		if row['department']
   			tmp = row['department'].split('|')
