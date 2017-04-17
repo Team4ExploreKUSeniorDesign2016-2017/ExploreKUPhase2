@@ -19,7 +19,31 @@ ActiveAdmin.register Location do
 
     if f.object.locatable_type != 'Building' && f.object.locatable_type != 'BusStop'
       f.inputs 'Parking Lot', for: [:locatable, f.object.locatable || ParkingLot.new], id: 'ParkingLot_poly', class: css_class do |fc|
-        fc.input :status
+        fc.input :lot
+        fc.input :Gold
+        fc.input :Blue
+        fc.input :Red
+        fc.input :Yellow
+        fc.input :DaisyHill
+        fc.input :GSPCorbin
+        fc.input :AlumniPlace
+        fc.input :OliverMcCarthyHalls
+        fc.input :JayhawkTowers
+        fc.input :SunflowerApartments
+        fc.input :Handicap
+        fc.input :Meter
+        fc.input :PF
+        fc.input :Load
+        fc.input :Reserved
+        fc.input :Service
+        fc.input :State
+        fc.input :Other
+        fc.input :Total
+        fc.input :Cycle
+        fc.input :restrictions
+        fc.has_many :parking_exceptions, allow_destroy: true, new_record: "Add Exceptions" do |e|
+          e.input :description
+        end
       end
     end
 
@@ -29,7 +53,6 @@ ActiveAdmin.register Location do
         fc.input :address
         fc.input :image
         fc.has_many :amenities, allow_destroy: true, new_record: "Add Amenities" do |e|
-          # fc.input :amenity_ids, as: :select2_multiple, collection: [:apples, :bananas, :oranges, :oranges]
           e.input :name
         end
         fc.has_many :departments, allow_destroy: true, new_record: "Add Departments" do |e|

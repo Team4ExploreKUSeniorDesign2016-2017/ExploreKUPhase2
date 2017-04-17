@@ -19,11 +19,22 @@ namespace :db do
   			end
   		end
   	end
+    
     puts 'Importing Parking Lot'
     file_name = 'db/ParkingLot.csv'
-  	CSV.foreach(file_name, headers: true) do |row|
-  		Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'],  altitude: row['altitude'], locatable: ParkingLot.create!(status: row['status']))
+  	CSV.foreach(file_name, encoding:'windows-1250:utf-8', headers: true) do |row|
+  		loc = Location.create!(name: row['name'], latitude: row['latitude'], longitude: row['longitude'], altitude: row['altitude'], locatable: ParkingLot.create!(lot: row['lot'], restrictions: row['restrictions'],
+        Gold: row['Gold'], Blue: row['Blue'], Red: row['Red'], Yellow: row['Yellow'],
+        DaisyHill: row['Daisy Hill'], GSPCorbin: row['GSP/Corbin'], OliverMcCarthyHalls: row['Oliver/McCarthy Halls'], AlumniPlace: row['Alumni Place'], JayhawkTowers: row['Jayhawk Towers'], SunflowerApartments: row['Sunflower Apartments'],
+        Handicap: row['Handicap'], Meter: row['Meter'], PF: row['PF'], Load: row['Load'], Reserved: row['Reserved'], Service: row['Service'], State: row['State'], Other: row['Other'], Total: row['Total'], Cycle: row['Cycle']))
+      if row['exceptions']
+        tmp = row['exceptions'].split('|')
+        tmp.each do |exception|
+          loc.locatable.parking_exceptions.create(description: exception)
+        end
+      end
   	end
+
     puts 'Importing Bus Stop'
     file_name = 'db/BusStop.csv'
   	CSV.foreach(file_name, headers: true) do |row|
