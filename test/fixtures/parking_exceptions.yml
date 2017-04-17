@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  parking_lot_id: 
+
+two:
+  description: MyString
+  parking_lot_id: 
