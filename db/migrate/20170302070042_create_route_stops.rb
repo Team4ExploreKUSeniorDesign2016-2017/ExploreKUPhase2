@@ -5,6 +5,7 @@ class CreateRouteStops < ActiveRecord::Migration
       t.decimal :end_time
       t.string :shift
       t.string :schedule
+      t.string :line
       t.references :route, index: true, foreign_key: true
       t.references :bus_stop, index: true, foreign_key: true
 

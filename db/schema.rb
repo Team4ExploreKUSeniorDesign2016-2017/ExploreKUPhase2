@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20170302070422) do
     t.decimal  "end_time"
     t.string   "shift"
     t.string   "schedule"
+    t.string   "line"
     t.integer  "route_id"
     t.integer  "bus_stop_id"
     t.datetime "created_at",  null: false
@@ -128,7 +129,7 @@ ActiveRecord::Schema.define(version: 20170302070422) do
   create_table "routes", force: :cascade do |t|
     t.integer  "number"
     t.string   "name"
-    t.string   "line"
+    t.string   "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
