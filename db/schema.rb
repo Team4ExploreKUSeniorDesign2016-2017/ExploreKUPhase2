@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302070422) do
+ActiveRecord::Schema.define(version: 20170417052039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,10 +94,43 @@ ActiveRecord::Schema.define(version: 20170302070422) do
 
   add_index "locations", ["locatable_type", "locatable_id"], name: "index_locations_on_locatable_type_and_locatable_id", using: :btree
 
+  create_table "parking_exceptions", force: :cascade do |t|
+    t.string   "description"
+    t.integer  "parking_lot_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "parking_exceptions", ["parking_lot_id"], name: "index_parking_exceptions_on_parking_lot_id", using: :btree
+
   create_table "parking_lots", force: :cascade do |t|
-    t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "lot"
+    t.string   "restrictions"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
+    t.decimal  "altitude"
+    t.integer  "Gold"
+    t.integer  "Blue"
+    t.integer  "Red"
+    t.integer  "Yellow"
+    t.integer  "DaisyHill"
+    t.integer  "GSPCorbin"
+    t.integer  "OliverMcCarthyHalls"
+    t.integer  "AlumniPlace"
+    t.integer  "JayhawkTowers"
+    t.integer  "SunflowerApartments"
+    t.integer  "Handicap"
+    t.integer  "Meter"
+    t.integer  "PF"
+    t.integer  "Load"
+    t.integer  "Reserved"
+    t.integer  "Service"
+    t.integer  "State"
+    t.integer  "Other"
+    t.integer  "Total"
+    t.integer  "Cycle"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "route_intervals", force: :cascade do |t|
@@ -136,6 +169,7 @@ ActiveRecord::Schema.define(version: 20170302070422) do
 
   add_foreign_key "amenities", "buildings"
   add_foreign_key "departments", "buildings"
+  add_foreign_key "parking_exceptions", "parking_lots"
   add_foreign_key "route_intervals", "routes"
   add_foreign_key "route_stops", "bus_stops"
   add_foreign_key "route_stops", "routes"
