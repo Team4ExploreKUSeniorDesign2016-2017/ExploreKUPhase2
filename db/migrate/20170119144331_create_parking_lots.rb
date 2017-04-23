@@ -3,9 +3,6 @@ class CreateParkingLots < ActiveRecord::Migration
     create_table :parking_lots do |t|
       t.integer :lot
       t.string :restrictions
-      t.decimal :latitude
-      t.decimal :longitude
-      t.decimal :altitude
       t.integer :Gold
       t.integer :Blue
       t.integer :Red

@@ -30,17 +30,22 @@ class Api::V1::LocationsController < ApplicationController
 
   def show
     location = Location.find(params[:id])
-    locatable = location.locatable.as_json(:except => [:created_at, :updated_at])
     if location.locatable_type == "Building"
       amenities = location.locatable.amenities.as_json(:except => [:id, :building_id, :created_at, :updated_at])
       departments = location.locatable.departments.as_json(:except => [:id, :building_id, :created_at, :updated_at])
+      locatable = location.locatable.as_json(:except => [:created_at, :updated_at])
       locatable = locatable.merge(amenities: amenities, departments: departments)
     elsif location.locatable_type == "BusStop"
       arrival_times = location.locatable.get_arrival_times.as_json
+      locatable = location.locatable.as_json(:except => [:created_at, :updated_at])
       locatable = locatable.merge(arrival_times: arrival_times)
     elsif location.locatable_type == "ParkingLot"
+      count = [:Gold , :Blue , :Red, :Yellow, :DaisyHill, :GSPCorbin, :OliverMcCarthyHalls, :AlumniPlace, :JayhawkTowers, :SunflowerApartments,
+              :Handicap, :Meter, :PF, :Load, :Reserved, :Service, :State, :Other]
+      parking_count = location.locatable.as_json(:only => count)
       exceptions = location.locatable.parking_exceptions.as_json(:except => [:id, :parking_lot_id, :created_at, :updated_at]).map{|x| x['description']}
-      locatable = locatable.merge(parking_exceptions: exceptions).compact
+      locatable = location.locatable.as_json(:except => [:created_at, :updated_at].concat(count))
+      locatable = locatable.merge(parking_exceptions: exceptions, parking_count: parking_count)
     end
     respond_with location.as_json(:except => [:locatable_id, :created_at, :updated_at]).merge(locatable: locatable)
   end

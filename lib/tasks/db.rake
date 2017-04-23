@@ -19,7 +19,7 @@ namespace :db do
   			end
   		end
   	end
-    
+
     puts 'Importing Parking Lot'
     file_name = 'db/ParkingLot.csv'
   	CSV.foreach(file_name, encoding:'windows-1250:utf-8', headers: true) do |row|
