@@ -1,7 +1,10 @@
 ActiveAdmin.register Location do
 
   permit_params :name, :latitude, :longitude, :altitude, :locatable_type, :locatable_id,
-    locatable_attributes: [:id, :number, :status, :description, :address, :image, amenities_attributes: [:id, :name, :_destroy], departments_attributes: [:id, :name, :_destroy]]
+    locatable_attributes: [:id, :number, :status, :description, :address, :image,
+      amenities_attributes: [:id, :name, :_destroy],
+      departments_attributes: [:id, :name, :_destroy],
+      route_stops_attributes: [:id, :route_id, :start_time, :end_time, :shift, :schedule, :line]]
 
   form do |f|
     css_class = f.object.locatable ? "inputs" : "inputs polyform"
@@ -64,6 +67,14 @@ ActiveAdmin.register Location do
     if f.object.locatable_type != 'Building' && f.object.locatable_type != 'ParkingLot'
       f.inputs 'Bus Stop', for: [:locatable, f.object.locatable || BusStop.new], id: 'BusStop_poly', class: css_class do |fc|
         fc.input :number
+        fc.has_many :route_stops, allow_destroy: true, new_record: "Add Routes" do |e|
+          e.input :route
+          e.input :start_time
+          e.input :end_time
+          e.input :shift
+          e.input :schedule
+          e.input :line
+        end
       end
     end
 

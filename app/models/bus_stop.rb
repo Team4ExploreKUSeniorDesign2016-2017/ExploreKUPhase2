@@ -2,6 +2,7 @@ class BusStop < ActiveRecord::Base
   has_one :location, as: :locatable, :dependent => :destroy
   has_many :route_stops, :dependent => :destroy
   has_many :routes, :through => :route_stops
+  accepts_nested_attributes_for :route_stops, :allow_destroy => true
 
   def get_arrival_times
     arrival_times = Hash.new { |h, k| h[k] = { } }
